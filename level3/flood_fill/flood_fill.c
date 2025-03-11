@@ -1,26 +1,21 @@
-// Passed Moulinette 2019.09.01
+ typedef struct  s_point
+  {
+    int           x;
+    int           y;
+  }               t_point;
 
-// This code is heavily influenced by @jochang's solution: github.com/MagicHatJo
-
-typedef struct 	s_point {
-	int			x;				// x : Width  | x-axis
-	int			y;				// y : Height | y-axis
-}				t_point;
- 
-void	fill(char **tab, t_point size, t_point cur, char to_fill)
+void fill(char  **t, t_point size, t_point pos, char original)
 {
-	if (cur.y < 0 || cur.y >= size.y || cur.x < 0 || cur.x >= size.x
-		|| tab[cur.y][cur.x] != to_fill)
-		return;
-
-	tab[cur.y][cur.x] = 'F';
-	fill(tab, size, (t_point){cur.x - 1, cur.y}, to_fill);
-	fill(tab, size, (t_point){cur.x + 1, cur.y}, to_fill);
-	fill(tab, size, (t_point){cur.x, cur.y - 1}, to_fill);
-	fill(tab, size, (t_point){cur.x, cur.y + 1}, to_fill);
+    if(pos.x < 0|| pos.x >= size.x || pos.y < 0|| pos.y >= size.y || t[pos.y][pos.x] != original) 
+        return;
+    t[pos.y][pos.x] = 'F';
+    
+        fill(t, size, (t_point){pos.x ,pos.y+1}, original);
+        fill(t, size, (t_point){pos.x ,pos.y-1}, original);
+        fill(t, size, (t_point){pos.x-1 ,pos.y}, original);
+        fill(t, size, (t_point){pos.x+1 ,pos.y}, original);
 }
-
-void	flood_fill(char **tab, t_point size, t_point begin)
-{
-	fill(tab, size, begin, tab[begin.y][begin.x]);
-}
+  void  flood_fill(char **tab, t_point size, t_point begin)
+  {
+    fill(tab,size, begin, tab[begin.y][begin.x] );
+  }

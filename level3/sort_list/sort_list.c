@@ -1,32 +1,28 @@
-// Passed Moulinette 2019.09.01
 
-#include "list.h"
-
-void	swap_values(t_list *a, t_list *b)
+typedef struct s_list t_list;
+struct s_list
 {
-	int swap = a->data;
-	a->data = b->data;
-	b->data = swap;
-}
+	int     data;
+	t_list  *next;
+};
 
-t_list	*sort_list(t_list* lst, int (*cmp)(int, int))
-{
-	int swapped = 1;
-	t_list *cur = lst;
+t_list *sort_list(t_list* lst, int (*cmp)(int, int)) {
+    int c;
+    t_list *t;
 
-	while (swapped == 1)
+    t = lst;
+
+    while (lst && lst->next )
+    {
+        if ((*cmp)(lst->data, lst->next->data) == 0)
 	{
-		swapped = 0;
-		while (cur != 0 && cur->next != 0)
-		{
-			if (cmp(cur->data, cur->next->data) == 0)
-			{
-				swap_values(cur, cur->next);
-				swapped = 1;
-			}
-			cur = cur->next;
-		}
-		cur = lst;
-	}
-	return (lst);
+            c = lst->data;
+            lst->data = lst->next->data;
+            lst->next->data = c;
+            lst = t;
+        }
+	else
+		lst = lst->next;
+    }
+    return (t);
 }

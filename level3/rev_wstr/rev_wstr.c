@@ -1,66 +1,41 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   rev_wstr.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aarbaoui <aarbaoui@student.1337.ma>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/18 14:03:03 by aarbaoui          #+#    #+#             */
-/*   Updated: 2023/01/18 14:50:08 by aarbaoui         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <unistd.h>
-
-void ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
+#include<unistd.h>
+#include<stdio.h>
 
 int ft_strlen(char *str)
 {
-	int i = 0;
-	
-	while (str[i])
+	int i=0;
+	while(str[i])
 		i++;
-	return (i);
+	return i;
 }
-
-int main(int ac, char *av[])
+void rev_wstr(char *str)
 {
-	char *tmp;
-	char *rev;
-	int len;
-
-	if (ac == 2)
-	{
-		tmp = av[1];
-		len = ft_strlen(tmp);
-		rev = NULL;
-		len--;
-		while (tmp[len])
+		int len= ft_strlen(str);
+		int end= len;
+		int start=0;
+		while(len>0)
 		{
-			if (tmp[len - 1] == ' ')
+			while(len>0 && str[len-1]!= ' '&& str[len-1]!= '\t')
+    			len--;
+			start =len;
+			while(start<end)
 			{
-				rev = &tmp[len];
-				while (*rev && *rev != ' ')
-				{
-					ft_putchar(*rev);
-					rev++;
-				}
-				ft_putchar(' ');
+				write(1,&str[start],1);
+				start++;
 			}
-			else if (len == 0)
-			{
-				rev = &tmp[len];
-				while (*rev && *rev != ' ')
-				{
-					ft_putchar(*rev);
-					rev++;
-				}
-			}
-			len--;
+			if(len>0)
+					write(1," ",1);
+			end = len -1;
+			len = end;
 		}
-	}
-	ft_putchar('\n');
 }
+int main(int argc, char **argv)
+{
+	if(argc ==2)
+	{
+		rev_wstr(argv[1]);
+	}
+	write(1,"\n",1);
+	return 0;
+}
+

@@ -1,68 +1,54 @@
-// Passed Moulinette 2019.09.01
+#include "stdio.h"
+#include "stdlib.h"
 
-#include <stdlib.h>
-
-int		absolute_value(int nbr)
+static int	count_size(long nbr)
 {
+	int	size;
+
+	size = 0;
 	if (nbr < 0)
-		return (-nbr);
-	return (nbr);
-}
-
-int		get_len(int nbr)
-{
-	int len = 0;
-	if (nbr <= 0)
-		++len;
-	while (nbr != 0)
 	{
-		++len;
-		nbr = nbr / 10;
+		nbr = nbr * (-1);
+		size = 1;
 	}
-	return (len);
+	if (nbr == 0)
+		size = 1;
+	else
+	{
+		while (nbr)
+		{
+			nbr = nbr / 10;
+			size++;
+		}
+	}
+	return (size);
 }
 
-char	*ft_itoa(int nbr)
+char	*ft_itoa(int n)
 {
-	char *result;
-	int len;
+	int	size;
+	long	nbr;
+	char	*str;
+	int		negative;
 
-	len = get_len(nbr);
-	result = malloc(sizeof(char) * (len + 1));
-	result[len] = '\0';
-
+	size = count_size((long) n);
+	str = (char *) malloc(sizeof(char) * (size + 1));
+	if (str == NULL)
+		return (NULL);
+	nbr = (long) n;
+	negative = 0;
 	if (nbr < 0)
-		result[0] = '-';
-	else if (nbr == 0)
-		result[0] = '0';
-
-	while (nbr != 0)
 	{
-		--len;
-		result[len] = absolute_value(nbr % 10) + '0';
-		nbr = nbr / 10;
+		nbr *= -1;
+		str[0] = '-';
+		negative = 1;
 	}
-	return (result);
+	str[size] = '\0';
+	while (size > negative)
+	{
+		str[size - 1] = nbr % 10 + '0';
+		nbr = nbr / 10;
+		size--;
+	}
+	return (str);
 }
-
-//-------------------------------------------------------
-// #include <stdio.h>
-// #include <limits.h>
-
-// int		main(void)
-// {
-// 	int d = INT_MIN;
-// 	printf("%d =? %s\n", d, ft_itoa(d));
-
-// 	d = -13;
-// 	printf("%d =? %s\n", d, ft_itoa(d));
-
-// 	d = 0;
-// 	printf("%d =? %s\n", d, ft_itoa(d));
-
-// 	d = 5;
-// 	printf("%d =? %s\n", d, ft_itoa(d));
-
-// 	d = INT_MAX;
-// 	printf("%d =? %s\n", d, ft_itoa(d));
-// }
